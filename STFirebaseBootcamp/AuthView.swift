@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct AuthView: View {
+    @Binding var showSignInView: Bool
+    
     var body: some View {
         NavigationView {
             VStack {
                 NavigationLink {
-                    SignInView()
+                    SignInView(showSignInView: $showSignInView)
                 } label: {
                     Text("Sign In")
                         .font(.headline)
@@ -32,6 +34,6 @@ struct AuthView: View {
 
 #Preview {
     NavigationView {
-        AuthView()
+        AuthView(showSignInView: .constant(false))
     }
 }

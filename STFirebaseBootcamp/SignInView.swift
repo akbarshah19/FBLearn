@@ -12,25 +12,30 @@ final class SignInViewVM: ObservableObject {
     @Published var email = ""
     @Published var password = ""
     
-    func signIn() {
+    func signIn() async throws {
         guard !email.isEmpty, !password.isEmpty else {
             print("No email or password found.")
             return
         }
         
-        Task {
-            do {
-                let result = try await AuthManager.shared.createUser(email: email, password: password)
-                print("DEBUG ⚠️: AuthResult - ", result)
-            } catch {
-                print(error)
-            }
+        let result = try await AuthManager.shared.createUser(email: email,
+                                                             password: password)
+    }
+    
+    func signUp() async throws {
+        guard !email.isEmpty, !password.isEmpty else {
+            print("No email or password found.")
+            return
         }
+        
+        let result = try await AuthManager.shared.signInUser(email: email,
+                                                             password: password)
     }
 }
 
 struct SignInView: View {
     @StateObject var vm = SignInViewVM()
+    @Binding var showSignInView: Bool
     
     var body: some View {
         VStack {
@@ -45,7 +50,23 @@ struct SignInView: View {
                 .cornerRadius(10)
             
             Button {
-                vm.signIn()
+                Task {
+                    do {
+                        try await vm.signUp()
+                        showSignInView = false
+                        return
+                    } catch {
+                        print(error)
+                    }
+                    
+                    do {
+                        try await vm.signIn()
+                        showSignInView = false
+                        return
+                    } catch {
+                        print(error)
+                    }
+                }
             } label: {
                 Text("Sign In")
                     .font(.headline)
@@ -63,6 +84,6 @@ struct SignInView: View {
 
 #Preview {
     NavigationView {
-        SignInView()
+        SignInView(showSignInView: .constant(false))
     }
 }

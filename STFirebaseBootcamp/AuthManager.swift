@@ -33,9 +33,36 @@ final class AuthManager {
         return AuthModel(user: user)
     }
     
+    @discardableResult
     func createUser(email: String, password: String) async throws -> AuthModel {
         let authResult = try await Auth.auth().createUser(withEmail: email, password: password)
         return AuthModel(user: authResult.user)
+    }
+    
+    @discardableResult
+    func signInUser(email: String, password: String) async throws -> AuthModel {
+        let authResult = try await Auth.auth().signIn(withEmail: email, password: password)
+        return AuthModel(user: authResult.user)
+    }
+    
+    func updatePassword(email: String) async throws {
+       try await Auth.auth().sendPasswordReset(withEmail: email)
+    }
+    
+    func updatePassword(password: String) async throws {
+        guard let user = Auth.auth().currentUser else {
+            throw URLError(.badServerResponse)
+        }
+        
+        try await user.updatePassword(to: password)
+    }
+    
+    func updateEmail(email: String) async throws {
+        guard let user = Auth.auth().currentUser else {
+            throw URLError(.badServerResponse)
+        }
+        
+        try await user.updateEmail(to: email)
     }
     
     func signOut() throws {
