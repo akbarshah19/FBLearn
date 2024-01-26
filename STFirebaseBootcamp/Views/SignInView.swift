@@ -41,11 +41,15 @@ struct SignInView: View {
         VStack {
             TextField("Email", text: $vm.email)
                 .padding()
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
                 .background(Color.blue.opacity(0.3))
                 .cornerRadius(10)
             
             SecureField("Password", text: $vm.password)
                 .padding()
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
                 .background(Color.blue.opacity(0.3))
                 .cornerRadius(10)
             

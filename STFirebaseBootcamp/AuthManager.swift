@@ -33,6 +33,13 @@ final class AuthManager {
         return AuthModel(user: user)
     }
     
+    func signOut() throws {
+        try Auth.auth().signOut()
+    }
+}
+
+//MARK: - Sign in email
+extension AuthManager {
     @discardableResult
     func createUser(email: String, password: String) async throws -> AuthModel {
         let authResult = try await Auth.auth().createUser(withEmail: email, password: password)
@@ -64,8 +71,9 @@ final class AuthManager {
         
         try await user.updateEmail(to: email)
     }
+}
+
+//MARK: - Sign in Google
+extension AuthManager {
     
-    func signOut() throws {
-        try Auth.auth().signOut()
-    }
 }
