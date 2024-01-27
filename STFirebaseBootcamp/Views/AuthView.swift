@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import FirebaseAuth
 import GoogleSignIn
 import GoogleSignInSwift
 
@@ -14,23 +13,14 @@ import GoogleSignInSwift
 final class AuthViewVM: ObservableObject {
     
     func signInGoogle() async throws {
-        guard let topVC = Utilities.shared.topViewController() else {
-            throw URLError(.cannotFindHost)
-        }
-        let gidSignInResult = try await GIDSignIn.sharedInstance.signIn(withPresenting: topVC)
-        
-        guard let idToken: String = gidSignInResult.user.idToken?.tokenString else {
-            throw URLError(.badServerResponse)
-        }
-        
-        let accessToken: String = gidSignInResult.user.accessToken.tokenString
-        
-        let credential = GoogleAuthProvider.credential(withIDToken: idToken,
-                                                       accessToken: accessToken)
+        let helper = SignInGoogleHelper()
+        let tokens = try await helper.signIn()
+        try await AuthManager.shared.signInWithGoogle(tokens: tokens)
     }
 }
 
 struct AuthView: View {
+    @StateObject var vm = AuthViewVM()
     @Binding var showSignInView: Bool
     
     var body: some View {
@@ -51,7 +41,14 @@ struct AuthView: View {
                 GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .dark,
                                                                           style: .wide,
                                                                           state: .normal)) {
-                    
+                    Task {
+                        do {
+                            try await vm.signInGoogle()
+                            showSignInView = false
+                        } catch {
+                            print(error)
+                        }
+                    }
                 }
 
             }

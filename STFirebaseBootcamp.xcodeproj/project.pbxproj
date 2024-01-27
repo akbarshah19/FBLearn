@@ -44,6 +44,7 @@
 		AD5CE9F42B583F97006625C4 /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5CE9F32B583F97006625C4 /* AuthView.swift */; };
 		AD5CE9F62B585BC7006625C4 /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5CE9F52B585BC7006625C4 /* RootView.swift */; };
 		AD5CE9F82B585CE1006625C4 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD5CE9F72B585CE1006625C4 /* SettingsView.swift */; };
+		ADCEF34C2B652A670083FE1A /* SignInGoogleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCEF34B2B652A670083FE1A /* SignInGoogleHelper.swift */; };
 		ADE197572B60352F0061ED72 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = ADE197562B60352F0061ED72 /* GoogleSignIn */; };
 		ADE197592B60352F0061ED72 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = ADE197582B60352F0061ED72 /* GoogleSignInSwift */; };
 		ADE1975F2B603C990061ED72 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADE1975E2B603C990061ED72 /* Utilities.swift */; };
@@ -61,6 +62,7 @@
 		AD5CE9F32B583F97006625C4 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		AD5CE9F52B585BC7006625C4 /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
 		AD5CE9F72B585CE1006625C4 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		ADCEF34B2B652A670083FE1A /* SignInGoogleHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInGoogleHelper.swift; sourceTree = "<group>"; };
 		ADE1975C2B6035FC0061ED72 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		ADE1975E2B603C990061ED72 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -132,6 +134,7 @@
 				AD18C6D22B42946400C8EA10 /* Preview Content */,
 				ADE1975E2B603C990061ED72 /* Utilities.swift */,
 				AD5CE9F12B583C7B006625C4 /* AuthManager.swift */,
+				ADCEF34B2B652A670083FE1A /* SignInGoogleHelper.swift */,
 			);
 			path = STFirebaseBootcamp;
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 				AD5CE9F02B583A39006625C4 /* SignInView.swift in Sources */,
 				AD5CE9F42B583F97006625C4 /* AuthView.swift in Sources */,
 				ADE1975F2B603C990061ED72 /* Utilities.swift in Sources */,
+				ADCEF34C2B652A670083FE1A /* SignInGoogleHelper.swift in Sources */,
 				AD5CE9F62B585BC7006625C4 /* RootView.swift in Sources */,
 				AD5CE9F22B583C7B006625C4 /* AuthManager.swift in Sources */,
 				AD18C6CF2B42946300C8EA10 /* ContentView.swift in Sources */,

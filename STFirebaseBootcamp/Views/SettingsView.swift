@@ -8,6 +8,13 @@
 import SwiftUI
 
 final class SettingsViewVM: ObservableObject {
+    @Published var authProviders = [AuthProviderOption]()
+    
+    func loadAuthProviders() {
+        if let providers = try? AuthManager.shared.getProvider() {
+            authProviders = providers
+        }
+    }
     
     func resetPassword() async throws {
         let authUser = try AuthManager.shared.getAuthenticatedUser()
@@ -38,47 +45,49 @@ struct SettingsView: View {
     
     var body: some View {
         List {
-            Section {
-                Button {
-                    Task {
-                        do {
-                            try await vm.updateEmail()
-                            print("DEBUG ⚠️: Email updated!")
-                        } catch {
-                            print(error)
+            if vm.authProviders.contains(.email) {
+                Section {
+                    Button {
+                        Task {
+                            do {
+                                try await vm.updateEmail()
+                                print("DEBUG ⚠️: Email updated!")
+                            } catch {
+                                print(error)
+                            }
                         }
+                    } label: {
+                        Text("Update Email")
                     }
-                } label: {
-                    Text("Update Email")
-                }
-                
-                Button {
-                    Task {
-                        do {
-                            try await vm.updatePassword()
-                            print("DEBUG ⚠️: Password updated!")
-                        } catch {
-                            print(error)
+                    
+                    Button {
+                        Task {
+                            do {
+                                try await vm.updatePassword()
+                                print("DEBUG ⚠️: Password updated!")
+                            } catch {
+                                print(error)
+                            }
                         }
+                    } label: {
+                        Text("Update Password")
                     }
-                } label: {
-                    Text("Update Password")
-                }
-                
-                Button {
-                    Task {
-                        do {
-                            try await vm.resetPassword()
-                            print("DEBUG ⚠️: Password reset!")
-                        } catch {
-                            print(error)
+                    
+                    Button {
+                        Task {
+                            do {
+                                try await vm.resetPassword()
+                                print("DEBUG ⚠️: Password reset!")
+                            } catch {
+                                print(error)
+                            }
                         }
+                    } label: {
+                        Text("Reset Password")
                     }
-                } label: {
-                    Text("Reset Password")
+                } header: {
+                    Text("Account")
                 }
-            } header: {
-                Text("Account")
             }
             
             Button {
@@ -94,6 +103,9 @@ struct SettingsView: View {
             } label: {
                 Text("Log Out")
             }
+        }
+        .onAppear {
+            vm.loadAuthProviders()
         }
         .navigationTitle("Settings")
     }
