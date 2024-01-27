@@ -9,6 +9,11 @@ import SwiftUI
 
 final class SettingsViewVM: ObservableObject {
     @Published var authProviders = [AuthProviderOption]()
+    @Published var authUser: AuthModel? = nil
+    
+    func loadAuthUser() {
+        self.authUser = try? AuthManager.shared.getAuthenticatedUser()
+    }
     
     func loadAuthProviders() {
         if let providers = try? AuthManager.shared.getProvider() {
@@ -90,6 +95,24 @@ struct SettingsView: View {
                 }
             }
             
+            if vm.authUser?.isAnonymous == true {
+                Section {
+                    Button {
+                        
+                    } label: {
+                        Text("Link Email")
+                    }
+                    
+                    Button {
+                        
+                    } label: {
+                        Text("Link Google Account")
+                    }
+                } header: {
+                    Text("Create account")
+                }
+            }
+            
             Button {
                 Task {
                     do {
@@ -106,6 +129,7 @@ struct SettingsView: View {
         }
         .onAppear {
             vm.loadAuthProviders()
+            vm.loadAuthUser()
         }
         .navigationTitle("Settings")
     }
