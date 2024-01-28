@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@MainActor
 final class SettingsViewVM: ObservableObject {
     @Published var authProviders = [AuthProviderOption]()
     @Published var authUser: AuthModel? = nil
@@ -27,6 +28,10 @@ final class SettingsViewVM: ObservableObject {
             throw URLError(.fileDoesNotExist)
         }
         try await AuthManager.shared.updatePassword(email: email)
+    }
+    
+    func deleteAccount() async throws {
+        try await AuthManager.shared.deleteUser()
     }
     
     func logOut() throws {
@@ -65,7 +70,7 @@ struct SettingsView: View {
         List {
             if vm.authProviders.contains(.email) {
                 Section {
-                    Button {
+                    Button("Update Email") {
                         Task {
                             do {
                                 try await vm.updateEmail()
@@ -74,11 +79,9 @@ struct SettingsView: View {
                                 print(error)
                             }
                         }
-                    } label: {
-                        Text("Update Email")
                     }
                     
-                    Button {
+                    Button("Update Password") {
                         Task {
                             do {
                                 try await vm.updatePassword()
@@ -87,11 +90,9 @@ struct SettingsView: View {
                                 print(error)
                             }
                         }
-                    } label: {
-                        Text("Update Password")
                     }
                     
-                    Button {
+                    Button("Reset Password") {
                         Task {
                             do {
                                 try await vm.resetPassword()
@@ -100,8 +101,6 @@ struct SettingsView: View {
                                 print(error)
                             }
                         }
-                    } label: {
-                        Text("Reset Password")
                     }
                 } header: {
                     Text("Account")
@@ -136,7 +135,7 @@ struct SettingsView: View {
                 }
             }
             
-            Button {
+            Button("Log Out") {
                 Task {
                     do {
                         try vm.logOut()
@@ -146,9 +145,22 @@ struct SettingsView: View {
                         print(error)
                     }
                 }
-            } label: {
-                Text("Log Out")
             }
+            
+            Button(role: .destructive) {
+                Task {
+                    do {
+                        try await vm.deleteAccount()
+                        showSignInView = true
+                        print("DEBUG ⚠️: Logged out!")
+                    } catch {
+                        print(error)
+                    }
+                }
+            } label: {
+                Text("Delete Account")
+            }
+
         }
         .onAppear {
             vm.loadAuthProviders()

@@ -56,6 +56,14 @@ final class AuthManager {
         return providers
     }
     
+    func deleteUser() async throws {
+        guard let user = Auth.auth().currentUser else {
+            throw URLError(.badURL)
+        }
+        
+        try await user.delete()
+    }
+    
     func signOut() throws {
         try Auth.auth().signOut()
     }
