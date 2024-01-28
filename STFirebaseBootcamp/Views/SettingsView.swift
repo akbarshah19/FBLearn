@@ -42,6 +42,19 @@ final class SettingsViewVM: ObservableObject {
         let password = "adminadmin2"
         try await AuthManager.shared.updatePassword(password: password)
     }
+    
+    func linkGoogleAccount() async throws {
+        let helper = SignInGoogleHelper()
+        let tokens = try await helper.signIn()
+        authUser = try await AuthManager.shared.linkGoogle(tokens: tokens)
+    }
+    
+    func linkEmailAccount() async throws {
+        let email = "admin@admin.com"
+        let password = "adminadmin"
+        authUser = try await AuthManager.shared.linkEmail(email: email,
+                                                          password: password)
+    }
 }
 
 struct SettingsView: View {
@@ -97,16 +110,26 @@ struct SettingsView: View {
             
             if vm.authUser?.isAnonymous == true {
                 Section {
-                    Button {
-                        
-                    } label: {
-                        Text("Link Email")
+                    Button("Link Email") {
+                        Task {
+                            do {
+                                try await vm.linkEmailAccount()
+                                print("DEBUG ⚠️: Email linked!")
+                            } catch {
+                                print(error)
+                            }
+                        }
                     }
                     
-                    Button {
-                        
-                    } label: {
-                        Text("Link Google Account")
+                    Button("Link Google Account") {
+                        Task {
+                            do {
+                                try await vm.linkGoogleAccount()
+                                print("DEBUG ⚠️: Google Acc linked!")
+                            } catch {
+                                print(error)
+                            }
+                        }
                     }
                 } header: {
                     Text("Create account")
