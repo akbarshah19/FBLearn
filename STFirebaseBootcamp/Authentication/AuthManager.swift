@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseAuth
 
-struct AuthModel {
+struct AuthDataResultModel {
     let uid: String
     let email: String?
     let photoUrl: String?
@@ -32,12 +32,12 @@ final class AuthManager {
     
     private init() {}
     
-    func getAuthenticatedUser() throws -> AuthModel {
+    func getAuthenticatedUser() throws -> AuthDataResultModel {
         guard let user = Auth.auth().currentUser else {
             throw URLError(.badServerResponse)
         }
         
-        return AuthModel(user: user)
+        return AuthDataResultModel(user: user)
     }
     
     func getProvider() throws -> [AuthProviderOption] {
@@ -72,15 +72,15 @@ final class AuthManager {
 //MARK: - Sign in email
 extension AuthManager {
     @discardableResult
-    func createUser(email: String, password: String) async throws -> AuthModel {
+    func createUser(email: String, password: String) async throws -> AuthDataResultModel {
         let authResult = try await Auth.auth().createUser(withEmail: email, password: password)
-        return AuthModel(user: authResult.user)
+        return AuthDataResultModel(user: authResult.user)
     }
     
     @discardableResult
-    func signInUser(email: String, password: String) async throws -> AuthModel {
+    func signInUser(email: String, password: String) async throws -> AuthDataResultModel {
         let authResult = try await Auth.auth().signIn(withEmail: email, password: password)
-        return AuthModel(user: authResult.user)
+        return AuthDataResultModel(user: authResult.user)
     }
     
     func updatePassword(email: String) async throws {
@@ -107,41 +107,41 @@ extension AuthManager {
 //MARK: - Sign in Google
 extension AuthManager {
     @discardableResult
-    func signInWithGoogle(tokens: GoogleSignInResultModel) async throws -> AuthModel {
+    func signInWithGoogle(tokens: GoogleSignInResultModel) async throws -> AuthDataResultModel {
         let credential = GoogleAuthProvider.credential(withIDToken: tokens.idToken, accessToken: tokens.accessToken)
         return try await signIn(credential: credential)
     }
     
-    func signIn(credential: AuthCredential) async throws -> AuthModel {
+    func signIn(credential: AuthCredential) async throws -> AuthDataResultModel {
         let authDataResult = try await Auth.auth().signIn(with: credential)
-        return AuthModel(user: authDataResult.user)
+        return AuthDataResultModel(user: authDataResult.user)
     }
 }
 
 //MARK: - Sign In Anonymous
 extension AuthManager {
     @discardableResult
-    func signInAnonymous() async throws -> AuthModel {
+    func signInAnonymous() async throws -> AuthDataResultModel {
         let authDataResult = try await Auth.auth().signInAnonymously()
-        return AuthModel(user: authDataResult.user)
+        return AuthDataResultModel(user: authDataResult.user)
     }
     
-    func linkEmail(email: String, password: String) async throws -> AuthModel {
+    func linkEmail(email: String, password: String) async throws -> AuthDataResultModel {
         let credential = EmailAuthProvider.credential(withEmail: email, password: password)
         return try await linkCredential(credential: credential)
     }
     
-    func linkGoogle(tokens: GoogleSignInResultModel) async throws -> AuthModel {
+    func linkGoogle(tokens: GoogleSignInResultModel) async throws -> AuthDataResultModel {
         let credential = GoogleAuthProvider.credential(withIDToken: tokens.idToken, accessToken: tokens.accessToken)
         return try await linkCredential(credential: credential)
     }
     
-    private func linkCredential(credential: AuthCredential) async throws -> AuthModel {
+    private func linkCredential(credential: AuthCredential) async throws -> AuthDataResultModel {
         guard let user = Auth.auth().currentUser else {
             throw URLError(.badURL)
         }
         
         let authDataResult = try await user.link(with: credential)
-        return AuthModel(user: authDataResult.user)
+        return AuthDataResultModel(user: authDataResult.user)
     }
 }
