@@ -13,12 +13,14 @@ final class AuthViewVM: ObservableObject {
     func signInGoogle() async throws {
         let helper = SignInGoogleHelper()
         let tokens = try await helper.signIn()
-        let authDataResult = try await AuthManager.shared.signInWithGoogle(tokens: tokens)
-        try await UserManager.shared.createNewUser(auth: authDataResult)
+        let res = try await AuthManager.shared.signInWithGoogle(tokens: tokens)
+        let user = DBUser(auth: res)
+        try await UserManager.shared.createNewUser(user: user)
     }
     
     func signInAnonymous() async throws {
-        let authDataResult = try await AuthManager.shared.signInAnonymous()
-        try await UserManager.shared.createNewUser(auth: authDataResult)
+        let res = try await AuthManager.shared.signInAnonymous()
+        let user = DBUser(auth: res)
+        try await UserManager.shared.createNewUser(user: user)
     }
 }

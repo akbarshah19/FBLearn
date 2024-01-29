@@ -18,9 +18,9 @@ final class SignInViewVM: ObservableObject {
             return
         }
         
-        let authDataResult = try await AuthManager.shared.createUser(email: email,
-                                                                     password: password)
-        try await UserManager.shared.createNewUser(auth: authDataResult)
+        let res = try await AuthManager.shared.createUser(email: email, password: password)
+        let user = DBUser(auth: res)
+        try await UserManager.shared.createNewUser(user: user)
     }
     
     func signUp() async throws {
@@ -29,7 +29,6 @@ final class SignInViewVM: ObservableObject {
             return
         }
         
-        let authDataResult = try await AuthManager.shared.signInUser(email: email,
-                                                             password: password)
+        let _ = try await AuthManager.shared.signInUser(email: email, password: password)
     }
 }
