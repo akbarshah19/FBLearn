@@ -45,5 +45,7 @@
 	<string>stfirebasebootcamp.appspot.com</string>
 	<key>GIDClientID</key>
 	<string>666583803336-am7cpbkma55egshq52l79061l02852hi.apps.googleusercontent.com</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 </dict>
 </plist>
