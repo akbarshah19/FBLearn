@@ -3,28 +3,28 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>AIzaSyCP52gUSJ4W7nOzHzfm6sk4t1ob9mxEDc8</string>
+	<string>AIzaSyAutk8f1xZNiILxzDzglKIu1YxndaiTonY</string>
 	<key>GCM_SENDER_ID</key>
-	<string>666583803336</string>
+	<string>106712839516</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.akbarshah.STFirebaseBootcamp</string>
 	<key>PROJECT_ID</key>
-	<string>stfirebasebootcamp</string>
+	<string>stfirebasebootcamp-855ca</string>
 	<key>STORAGE_BUCKET</key>
-	<string>stfirebasebootcamp.appspot.com</string>
+	<string>stfirebasebootcamp-855ca.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_GCM_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:666583803336:ios:0bc56a3a5d856ee0e94cfd</string>
+	<string>1:106712839516:ios:b1da0bb231ffc03f317d99</string>
 </dict>
 </plist>
